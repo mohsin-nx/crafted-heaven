@@ -1,0 +1,28 @@
+/* Quiet depth and movement, with native reduced-motion support. */
+.card,.gallery-item{position:relative;transform:perspective(1100px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg));transition:transform 420ms cubic-bezier(.22,1,.36,1),box-shadow 420ms ease;transform-origin:center;backface-visibility:hidden}
+.gallery-item{overflow:hidden}
+.card::after,.gallery-item::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at var(--light-x,50%) var(--light-y,50%),rgba(255,255,255,.19),transparent 65%);opacity:0;transition:opacity 350ms}
+.card.is-tilting,.gallery-item.is-tilting{z-index:1;box-shadow:0 22px 34px -21px rgba(24,40,30,.55);transition:transform 100ms linear,box-shadow 400ms ease}
+.is-tilting::after{opacity:1}
+.card img,.gallery-item img{transition:transform 600ms cubic-bezier(.22,1,.36,1)}
+.button{transition:transform 230ms ease,box-shadow 230ms ease,background 230ms ease}
+.button:focus-visible,.text-link:focus-visible{outline:3px solid var(--rose);outline-offset:5px}
+.button:active{transform:translateY(1px) scale(.98)}
+@media(hover:hover) and (pointer:fine){
+ .is-tilting img{transform:scale(1.035)}
+ .button:hover{transform:translateY(-3px);box-shadow:0 9px 18px -9px rgba(24,40,30,.6)}
+ .hero-photo:hover img{transform:perspective(1200px) scale(1.065) rotateY(-2deg)}
+}
+@media(prefers-reduced-motion:no-preference){
+ .hero-photo img{animation:bouquet-float 4.6s ease-in-out 1;transition:transform 1200ms cubic-bezier(.22,1,.36,1);transform:scale(1.025)}
+ .hero-copy>*{animation:welcome-in 850ms cubic-bezier(.22,1,.36,1) both}
+ .hero-copy>h1{animation-delay:100ms}.hero-copy>.desc{animation-delay:190ms}.hero-copy>.button{animation-delay:280ms}
+ @keyframes bouquet-float{0%{transform:perspective(1200px) scale(1.075) rotateY(-3deg) translateY(8px)}50%{transform:perspective(1200px) scale(1.045) rotateY(1deg) translateY(-5px)}100%{transform:scale(1.025)}}
+ @keyframes welcome-in{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
+}
+@media(max-width:600px){.hero-photo img{animation-duration:3s}}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ .card,.gallery-item,.card img,.gallery-item img,.hero-photo img,.button{animation:none!important;transition:none!important;transform:none!important}
+ .card::after,.gallery-item::after{display:none}
+}
